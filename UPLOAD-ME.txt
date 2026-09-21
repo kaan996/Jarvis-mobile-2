@@ -1,0 +1,1 @@
+Upload the contents of this folder to the ROOT of your existing GitHub repository and commit. Existing .github/workflows/build-apk.yml can stay as-is.
