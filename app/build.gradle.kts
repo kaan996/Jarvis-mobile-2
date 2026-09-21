@@ -7,10 +7,10 @@ android {
     namespace = "com.kaan.jarvismobile"
     compileSdk = 35
     defaultConfig {
-        applicationId = "com.kaan.jarvismobile"
+        applicationId = "com.kaan.jarvismobile2"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
     }
     buildFeatures { buildConfig = true }
