@@ -241,4 +241,3 @@ class MainActivity : AppCompatActivity() {
     private fun dp(value: Int) = (value * resources.displayMetrics.density).toInt()
     override fun onDestroy() { super.onDestroy(); pollGeneration++; speech?.destroy(); io.shutdownNow() }
 }
-

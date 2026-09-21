@@ -8,7 +8,7 @@
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/Theme.JARVISMobile"
-        android:label="JARVIS Mobile">
+        android:label="JARVIS Mobile Clean">
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
