@@ -1,0 +1,10 @@
+JARVIS MOBILE - GITHUB BUILD
+
+1) Open: https://github.com/kaan996/Jarvis-mobile-2
+2) Click Add file -> Upload files
+3) Extract this ZIP on your PC.
+4) Drag EVERYTHING INSIDE the extracted JARVIS-Mobile-V1 folder into GitHub's upload area.
+   IMPORTANT: drag the contents, not the ZIP file itself.
+5) Click Commit changes.
+6) Open the Actions tab. "Build JARVIS Mobile APK" will start automatically.
+7) When it becomes green, tell ChatGPT "build bitti". ChatGPT can inspect the run and fetch the APK artifact.

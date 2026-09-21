@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- V1 is LAN-only and authenticated with short-lived pairing/session tokens.
+         Cleartext is limited to private/local IPv4 ranges by app logic. -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
