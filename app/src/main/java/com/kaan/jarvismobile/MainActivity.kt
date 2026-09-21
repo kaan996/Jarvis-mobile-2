@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         root.addView(scroll, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
         quickRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; visibility = View.GONE }
         listOf("FILM" to "Film zamanı", "VOL+" to "TV sesini yükselt", "VOL−" to "TV sesini azalt", "HOME" to "TV ana ekrana dön").forEach { (label, command) ->
-            addView(button(label) { sendCommand(command) }, LinearLayout.LayoutParams(0, dp(42), 1f))
+            quickRow.addView(button(label) { sendCommand(command) }, LinearLayout.LayoutParams(0, dp(42), 1f))
         }
         root.addView(quickRow)
         val composer = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
@@ -241,3 +241,4 @@ class MainActivity : AppCompatActivity() {
     private fun dp(value: Int) = (value * resources.displayMetrics.density).toInt()
     override fun onDestroy() { super.onDestroy(); pollGeneration++; speech?.destroy(); io.shutdownNow() }
 }
+
