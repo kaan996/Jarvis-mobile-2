@@ -1,4 +1,4 @@
-name: Build JARVIS Mobile CLEAN APK
+name: Build Signed JARVIS Mobile APK
 
 on:
   push:
@@ -17,10 +17,11 @@ jobs:
         run: |
           sed -i 's/applicationId = "com.kaan.jarvismobile2"/applicationId = "com.kaan.jarvismobile.clean"/' app/build.gradle.kts
           sed -i 's/applicationId = "com.kaan.jarvismobile"/applicationId = "com.kaan.jarvismobile.clean"/' app/build.gradle.kts
-          sed -i 's/versionCode = 1/versionCode = 3/' app/build.gradle.kts
-          sed -i 's/versionCode = 2/versionCode = 3/' app/build.gradle.kts
-          sed -i 's/versionName = "1.0"/versionName = "1.0.1"/' app/build.gradle.kts
-          sed -i 's/android:label="JARVIS Mobile"/android:label="JARVIS Mobile Clean"/' app/src/main/AndroidManifest.xml
+          sed -i 's/versionCode = 1/versionCode = 4/' app/build.gradle.kts
+          sed -i 's/versionCode = 2/versionCode = 4/' app/build.gradle.kts
+          sed -i 's/versionCode = 3/versionCode = 4/' app/build.gradle.kts
+          sed -i 's/versionName = "1.0"/versionName = "1.0.2"/' app/build.gradle.kts
+          sed -i 's/versionName = "1.0.1"/versionName = "1.0.2"/' app/build.gradle.kts
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
@@ -36,12 +37,43 @@ jobs:
       - name: Build APK
         run: gradle --no-daemon assembleDebug
 
-      - name: Rename APK
-        run: cp app/build/outputs/apk/debug/app-debug.apk JARVIS-Mobile-CLEAN.apk
+      - name: Create signing keystore
+        run: |
+          keytool -genkeypair \
+            -keystore jarvis-release.jks \
+            -storepass jarvis123456 \
+            -keypass jarvis123456 \
+            -alias jarvis \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=JARVIS Mobile,O=Kaan,C=TR"
 
-      - name: Upload APK
+      - name: Locate Android build tools
+        run: |
+          BUILD_TOOLS=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
+          echo "BUILD_TOOLS=$BUILD_TOOLS" >> $GITHUB_ENV
+
+      - name: Sign APK
+        run: |
+          "$BUILD_TOOLS/zipalign" -f -v 4 \
+            app/build/outputs/apk/debug/app-debug.apk \
+            JARVIS-Mobile-aligned.apk
+
+          "$BUILD_TOOLS/apksigner" sign \
+            --ks jarvis-release.jks \
+            --ks-key-alias jarvis \
+            --ks-pass pass:jarvis123456 \
+            --key-pass pass:jarvis123456 \
+            --out JARVIS-Mobile-SIGNED.apk \
+            JARVIS-Mobile-aligned.apk
+
+      - name: Verify APK signature
+        run: |
+          "$BUILD_TOOLS/apksigner" verify --verbose --print-certs JARVIS-Mobile-SIGNED.apk
+
+      - name: Upload signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: JARVIS-Mobile-CLEAN
-          path: JARVIS-Mobile-CLEAN.apk
-          
+          name: JARVIS-Mobile-SIGNED
+          path: JARVIS-Mobile-SIGNED.apk  
